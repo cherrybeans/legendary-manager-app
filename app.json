@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "legendary-manager",
-    "description": "This project is really great.",
+    "description": "Thie best to-do app everr.",
     "slug": "legendary-manager",
     "privacy": "public",
     "sdkVersion": "31.0.0",
@@ -17,9 +17,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     }
