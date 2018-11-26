@@ -7,5 +7,8 @@ export const COLORS = {
   GRAY4: '#858585',
   GRAY5: '#3B3B3B',
   BLACK: '#171717',
+
   RED: '#FF4040',
+  GREEN: '#17A05E',
+  BLUE: '#498AF4',
 };

@@ -1,27 +1,58 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
-import { COLORS } from 'constants/colors';
+import { ScrollView, Text, Linking, View } from 'react-native';
+import { Card, Button } from 'react-native-elements';
 
-class MainPage extends Component {
-  onChooseColor() {}
-
-  selectedColor() {
-    const colorName = 'RED';
-    return COLORS[colorName].hexCode;
-  }
+class Home extends Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
 
   render() {
-    const color = this.selectedColor();
     return (
-      <View style={{ flex: 1, alignSelf: 'stretch', backgroundColor: color }}>
-        <Button
-          onPress={this.onChooseColor.bind(this)}
-          color="#FFF"
-          title="Choose Color"
-        />
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
+          {images.map(({ name, image, url, key }) => (
+            <Card title={`CARD ${key}`} image={image} key={key}>
+              <Text style={{ marginBottom: 10 }}>Photo by {name}.</Text>
+              <Button
+                backgroundColor="#03A9F4"
+                title="VIEW NOW"
+                onPress={() => Linking.openURL(url)}
+              />
+            </Card>
+          ))}
+        </ScrollView>
       </View>
     );
   }
 }
 
-export default MainPage;
+export default Home;
+export { Home };
+
+const images = [
+  {
+    key: 1,
+    name: 'Nathan Anderson',
+    image: require('assets/images/foggyforest.jpg'),
+    url: 'https://unsplash.com/photos/C9t94JC4_L8',
+  },
+  {
+    key: 2,
+    name: 'Jamison McAndie',
+    image: require('assets/images/mountain.jpg'),
+    url: 'https://unsplash.com/photos/waZEHLRP98s',
+  },
+  {
+    key: 3,
+    name: 'Alberto Restifo',
+    image: require('assets/images/snowymountain.jpg'),
+    url: 'https://unsplash.com/photos/cFplR9ZGnAk',
+  },
+  {
+    key: 4,
+    name: 'John Towner',
+    image: require('assets/images/starrysky.jpg'),
+    url: 'https://unsplash.com/photos/89PFnHKg8HE',
+  },
+];
