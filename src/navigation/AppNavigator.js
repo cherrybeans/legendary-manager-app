@@ -65,7 +65,7 @@ export const AppStack = createBottomTabNavigator(
   },
 );
 
-const AppNav = createAppContainer(
+const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
@@ -78,4 +78,4 @@ const AppNav = createAppContainer(
   ),
 );
 
-export default AppNav;
+export default AppContainer;
