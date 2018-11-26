@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "legendary-manager",
-    "description": "Thie best to-do app everr.",
+    "name": "The Legendary Manager",
+    "displayName": "Legendary Manager",
+    "description": "This is the best to-do app everr.",
     "slug": "legendary-manager",
     "privacy": "public",
     "sdkVersion": "31.0.0",
