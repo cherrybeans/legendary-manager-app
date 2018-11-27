@@ -6,7 +6,6 @@ import {
   createSwitchNavigator,
   createAppContainer,
 } from 'react-navigation';
-import { FontAwesome } from 'react-native-vector-icons';
 
 import SignUp from 'screens/SignUp';
 import SignIn from 'screens/SignIn';
@@ -14,6 +13,8 @@ import Home from 'screens/Home';
 import Profile from 'screens/Profile';
 import AuthLoadingScreen from 'screens/AuthLoadingScreen';
 import LandingScreen from 'screens/LandingScreen';
+import TabIcon from 'components/TabIcon';
+import { COLORS } from 'constants';
 
 const headerStyle = {
   marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
@@ -50,7 +51,7 @@ export const AppStack = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="home" size={30} color={tintColor} />
+          <TabIcon label="Home" icon="home" size={30} color={tintColor} />
         ),
       },
     },
@@ -59,7 +60,7 @@ export const AppStack = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Profile',
         tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="user" size={30} color={tintColor} />
+          <TabIcon label="Profile" icon="user" size={30} color={tintColor} />
         ),
       },
     },
@@ -67,8 +68,11 @@ export const AppStack = createBottomTabNavigator(
   {
     tabBarOptions: {
       style: {
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        height: 60,
+        alignItems: 'center',
       },
+      showLabel: false,
+      activeTintColor: COLORS.BLUE, // active icon color
     },
   },
 );
