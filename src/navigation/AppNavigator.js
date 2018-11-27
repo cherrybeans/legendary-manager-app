@@ -24,7 +24,7 @@ export const AuthStack = createStackNavigator({
     screen: LandingScreen,
     navigationOptions: {
       title: 'Welcome!',
-      headerStyle,
+      header: null,
     },
   },
   SignUp: {

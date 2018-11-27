@@ -6,15 +6,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import TextField from 'components/Form/TextField';
-import { COLORS } from 'constants/colors';
-import { USER_TOKEN } from 'constants/storage';
+import { COLORS, USER_TOKEN } from 'constants';
 import { SIGN_UP } from 'queries/auth';
 
 class SignUpForm extends Component {
-  static navigationOptions = {
-    title: 'Please sign up',
-  };
-
   render() {
     return (
       <View style={{ paddingVertical: 20 }}>
@@ -79,6 +74,13 @@ class SignUpForm extends Component {
                     disabled={!isValid}
                     onPress={handleSubmit}
                   />
+
+                  <Button
+                    backgroundColor="transparent"
+                    color={COLORS.BLUE}
+                    title="Already have a user? Log In"
+                    onPress={() => this.props.navigation.navigate('SignIn')}
+                  />
                 </View>
               );
             }}
@@ -114,6 +116,7 @@ class SignUp extends Component {
               <SignUpForm
                 loading={loading}
                 error={this.state.error}
+                navigation={this.props.navigation}
                 onSubmit={async values => {
                   signup({
                     variables: {

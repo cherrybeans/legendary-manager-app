@@ -3,10 +3,6 @@ import { View, AsyncStorage } from 'react-native';
 import { Card, Button, Text } from 'react-native-elements';
 
 class Profile extends Component {
-  static navigationOptions = {
-    title: 'Profile',
-  };
-
   render() {
     return (
       <View style={{ paddingVertical: 20 }}>

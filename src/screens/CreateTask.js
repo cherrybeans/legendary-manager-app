@@ -3,10 +3,6 @@ import { View, AsyncStorage } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 
 class CreateTask extends Component {
-  static navigationOptions = {
-    title: 'Create a new task',
-  };
-
   render() {
     return (
       <View style={{ paddingVertical: 20 }}>
