@@ -42,6 +42,7 @@ class SignUpForm extends Component {
                     error={errors.name}
                     touched={touched.name}
                     onBlur={() => setFieldTouched('name')}
+                    onSubmitEditing={() => this.email.focus()}
                   />
 
                   <TextField
@@ -53,6 +54,8 @@ class SignUpForm extends Component {
                     error={errors.email}
                     touched={touched.email}
                     onBlur={() => setFieldTouched('email')}
+                    inputRef={ref => (this.email = ref)}
+                    onSubmitEditing={() => this.password.focus()}
                   />
 
                   <TextField
@@ -64,6 +67,8 @@ class SignUpForm extends Component {
                     error={errors.password}
                     touched={touched.password}
                     onBlur={() => setFieldTouched('password')}
+                    inputRef={ref => (this.password = ref)}
+                    onSubmitEditing={() => this.passwordConfirm.focus()}
                     hideInput
                   />
                   <TextField
@@ -75,6 +80,9 @@ class SignUpForm extends Component {
                     error={errors.passwordConfirm}
                     touched={touched.passwordConfirm}
                     onBlur={() => setFieldTouched('passwordConfirm')}
+                    inputRef={ref => (this.passwordConfirm = ref)}
+                    onSubmitEditing={() => Keyboard.dismiss()}
+                    noNextInputField
                     hideInput
                   />
 
@@ -139,7 +147,7 @@ class SignUp extends Component {
                     variables: {
                       input: {
                         name: values.name,
-                        email: values.email,
+                        email: values.email.toLowerCase(),
                         password: values.password,
                       },
                     },

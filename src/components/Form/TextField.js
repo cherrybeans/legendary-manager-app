@@ -16,6 +16,10 @@ const TextField = ({
   touched,
   hideInput,
   placeholder,
+  noNextInputField,
+  inputRef,
+  onSubmitEditing,
+  returnKeyType = 'done',
 }) => {
   return (
     <View>
@@ -27,6 +31,10 @@ const TextField = ({
         value={value}
         label={label}
         placeholder={placeholder}
+        returnKeyType={noNextInputField ? returnKeyType : 'next'}
+        ref={inputRef}
+        onSubmitEditing={onSubmitEditing}
+        blurOnSubmit={false}
       />
       {error && touched && (
         <FormValidationMessage id={`feedback ${name}`}>

@@ -42,6 +42,7 @@ class SignInForm extends Component {
                     error={errors.email}
                     touched={touched.email}
                     onBlur={() => setFieldTouched('email')}
+                    onSubmitEditing={() => this.password.focus()}
                   />
 
                   <TextField
@@ -54,6 +55,10 @@ class SignInForm extends Component {
                     touched={touched.password}
                     onBlur={() => setFieldTouched('password')}
                     hideInput
+                    inputRef={ref => (this.password = ref)}
+                    onSubmitEditing={handleSubmit}
+                    noNextInputField
+                    returnKeyType="go"
                   />
 
                   {this.props.error && <Text>{this.props.error}</Text>}
@@ -109,7 +114,10 @@ class SignIn extends Component {
                 onSubmit={async values => {
                   login({
                     variables: {
-                      input: { email: values.email, password: values.password },
+                      input: {
+                        email: values.email.toLowerCase(),
+                        password: values.password,
+                      },
                     },
                   })
                     .then(async res => {
