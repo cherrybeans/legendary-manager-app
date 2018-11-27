@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import { onSignIn } from 'utils/auth';
+import { Field, reduxForm } from 'redux-form';
+
+import { SIGN_UP } from 'queries/auth';
 
 class SignUp extends Component {
   static navigationOptions = {
@@ -13,11 +15,13 @@ class SignUp extends Component {
       <View style={{ paddingVertical: 20 }}>
         <Card>
           <FormLabel>Email</FormLabel>
-          <FormInput placeholder="Email address..." />
+          <Field name="email" component={renderEmailInput} />
+
           <FormLabel>Password</FormLabel>
-          <FormInput secureTextEntry placeholder="Password..." />
+          <Field name="password" component={renderPasswordInput} />
+
           <FormLabel>Confirm Password</FormLabel>
-          <FormInput secureTextEntry placeholder="Confirm Password..." />
+          <Field name="password" component={renderPasswordInput} />
 
           <Button
             buttonStyle={{ marginTop: 20 }}
@@ -43,5 +47,29 @@ class SignUp extends Component {
   };
 }
 
-export default SignUp;
-export { SignUp };
+const renderEmailInput = ({ input: { onChange, ...restInput } }) => {
+  console.log('email', restInput);
+  return (
+    <FormInput
+      placeholder="Email address..."
+      onChangeText={onChange}
+      keyboardType="email-address"
+      {...restInput}
+    />
+  );
+};
+
+const renderPasswordInput = ({ input: { onChange, ...restInput } }) => {
+  return (
+    <FormInput
+      secureTextEntry
+      placeholder="Password..."
+      onChangeText={onChange}
+      {...restInput}
+    />
+  );
+};
+
+export default reduxForm({
+  form: 'signup',
+})(SignUp);
