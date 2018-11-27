@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { Card, Button, Text } from 'react-native-elements';
-import { onSignOut } from 'utils/auth';
 
 class Profile extends Component {
   static navigationOptions = {

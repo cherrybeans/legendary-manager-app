@@ -15,9 +15,8 @@ const TextField = ({
   hideInput,
   placeholder,
 }) => {
-  console.log(error);
   return (
-    <View style={{ paddingVertical: 20 }}>
+    <View>
       <FormLabel>{label}</FormLabel>
       <FormInput
         secureTextEntry={hideInput}
@@ -27,7 +26,9 @@ const TextField = ({
         placeholder={placeholder}
       />
       {error && (
-        <FormValidationMessage id="feedback">{error}</FormValidationMessage>
+        <FormValidationMessage id={`feedback ${name}`}>
+          {error}
+        </FormValidationMessage>
       )}
     </View>
   );

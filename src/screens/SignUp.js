@@ -48,7 +48,6 @@ class SignUp extends Component {
 }
 
 const renderEmailInput = ({ input: { onChange, ...restInput } }) => {
-  console.log('email', restInput);
   return (
     <FormInput
       placeholder="Email address..."

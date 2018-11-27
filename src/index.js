@@ -10,7 +10,8 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  // 10.0.2.2 due to the android emulator though Android Studio!
+  uri: 'http://10.0.2.2:4000/graphql',
 });
 
 export default class App extends React.Component {
