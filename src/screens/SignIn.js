@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Keyboard, Text, AsyncStorage } from 'react-native';
 import { Mutation } from 'react-apollo';
 import { Card, Button } from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -12,7 +13,7 @@ import { SIGN_IN } from 'queries/auth';
 class SignInForm extends Component {
   render() {
     return (
-      <View style={{ paddingVertical: 20 }}>
+      <KeyboardAwareScrollView enableOnAndroid={true} extraHeight={140}>
         <Card>
           <Formik
             validationSchema={validationSchema}
@@ -71,7 +72,7 @@ class SignInForm extends Component {
             }}
           </Formik>
         </Card>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

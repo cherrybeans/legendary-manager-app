@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { View, Keyboard, Text, AsyncStorage } from 'react-native';
 import { Mutation } from 'react-apollo';
 import { Card, Button } from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { equalTo } from 'utils/validation';
 
 import TextField from 'components/Form/TextField';
 import { COLORS, USER_TOKEN } from 'constants';
@@ -12,7 +14,7 @@ import { SIGN_UP } from 'queries/auth';
 class SignUpForm extends Component {
   render() {
     return (
-      <View style={{ paddingVertical: 20 }}>
+      <KeyboardAwareScrollView enableOnAndroid={true} extraHeight={140}>
         <Card>
           <Formik
             validationSchema={validationSchema}
@@ -50,7 +52,6 @@ class SignUpForm extends Component {
                     error={errors.password}
                     hideInput
                   />
-
                   <TextField
                     name="passwordConfirm"
                     label="Repeat password"
@@ -86,7 +87,7 @@ class SignUpForm extends Component {
             }}
           </Formik>
         </Card>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -100,8 +101,8 @@ const validationSchema = Yup.object().shape({
     .required('Enter a password')
     .min(6, 'Definitely getting hacked ..'),
   passwordConfirm: Yup.string()
-    .required('Enter a password')
-    .min(6, 'Definitely getting hacked ..'),
+    .equalTo(Yup.ref('password'), 'Passwords must match')
+    .required('Required'),
 });
 
 class SignUp extends Component {
