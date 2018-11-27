@@ -59,10 +59,6 @@ class SignInForm extends Component {
                       backgroundColor: COLORS.BLUE,
                     }}
                     loading={this.props.loading}
-                    loadingProps={{
-                      size: 'large',
-                      color: 'rgba(111, 202, 186, 1)',
-                    }}
                     disabledStyle={{ backgroundColor: 'gray' }}
                     title="Sign in"
                     disabled={!isValid}

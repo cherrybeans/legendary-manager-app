@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
-import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import { Field, reduxForm } from 'redux-form';
+import { View, Keyboard, Text, AsyncStorage } from 'react-native';
+import { Mutation } from 'react-apollo';
+import { Card, Button } from 'react-native-elements';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
+import TextField from 'components/Form/TextField';
+import { COLORS } from 'constants/colors';
+import { USER_TOKEN } from 'constants/storage';
 import { SIGN_UP } from 'queries/auth';
 
-class SignUp extends Component {
+class SignUpForm extends Component {
   static navigationOptions = {
     title: 'Please sign up',
   };
@@ -14,61 +19,134 @@ class SignUp extends Component {
     return (
       <View style={{ paddingVertical: 20 }}>
         <Card>
-          <FormLabel>Email</FormLabel>
-          <Field name="email" component={renderEmailInput} />
+          <Formik
+            validationSchema={validationSchema}
+            onSubmit={values => {
+              this.props.onSubmit(values);
+            }}
+          >
+            {({ handleChange, handleSubmit, values, errors, isValid }) => {
+              return (
+                <View>
+                  <TextField
+                    name="name"
+                    label="Name"
+                    placeholder="e.g. Kari Nordmann "
+                    onChangeText={handleChange('name')}
+                    value={values.name}
+                    error={errors.name}
+                  />
 
-          <FormLabel>Password</FormLabel>
-          <Field name="password" component={renderPasswordInput} />
+                  <TextField
+                    name="email"
+                    label="E-mail"
+                    placeholder="e.g. example@example.com"
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                    error={errors.email}
+                  />
 
-          <FormLabel>Confirm Password</FormLabel>
-          <Field name="password" component={renderPasswordInput} />
+                  <TextField
+                    name="password"
+                    label="Password"
+                    placeholder="Password ..."
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                    error={errors.password}
+                    hideInput
+                  />
 
-          <Button
-            buttonStyle={{ marginTop: 20 }}
-            backgroundColor="#03A9F4"
-            title="SIGN UP"
-            onPress={this._signUpAsync}
-          />
-          <Button
-            buttonStyle={{ marginTop: 20 }}
-            backgroundColor="transparent"
-            textStyle={{ color: '#bcbec1' }}
-            title="Sign In"
-            onPress={() => this.props.navigation.navigate('SignIn')}
-          />
+                  <TextField
+                    name="passwordConfirm"
+                    label="Repeat password"
+                    placeholder="Password ..."
+                    onChangeText={handleChange('passwordConfirm')}
+                    value={values.passwordConfirm}
+                    error={errors.passwordConfirm}
+                    hideInput
+                  />
+
+                  {this.props.error && <Text>{this.props.error}</Text>}
+
+                  <Button
+                    buttonStyle={{
+                      marginTop: 20,
+                      backgroundColor: COLORS.BLUE,
+                    }}
+                    loading={this.props.loading}
+                    disabledStyle={{ backgroundColor: 'gray' }}
+                    title="Sign up"
+                    disabled={!isValid}
+                    onPress={handleSubmit}
+                  />
+                </View>
+              );
+            }}
+          </Formik>
         </Card>
       </View>
     );
   }
-
-  _signUpAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
-  };
 }
 
-const renderEmailInput = ({ input: { onChange, ...restInput } }) => {
-  return (
-    <FormInput
-      placeholder="Email address..."
-      onChangeText={onChange}
-      keyboardType="email-address"
-      {...restInput}
-    />
-  );
-};
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required('What should we call you?'),
+  email: Yup.string()
+    .required('Please enter an email')
+    .email("Well, that's not an email"),
+  password: Yup.string()
+    .required('Enter a password')
+    .min(6, 'Definitely getting hacked ..'),
+  passwordConfirm: Yup.string()
+    .required('Enter a password')
+    .min(6, 'Definitely getting hacked ..'),
+});
 
-const renderPasswordInput = ({ input: { onChange, ...restInput } }) => {
-  return (
-    <FormInput
-      secureTextEntry
-      placeholder="Password..."
-      onChangeText={onChange}
-      {...restInput}
-    />
-  );
-};
+class SignUp extends Component {
+  state = { error: null };
 
-export default reduxForm({
-  form: 'signup',
-})(SignUp);
+  render() {
+    return (
+      <Mutation mutation={SIGN_UP}>
+        {(signup, { loading, error, data }) => {
+          return (
+            <View>
+              <SignUpForm
+                loading={loading}
+                error={this.state.error}
+                onSubmit={async values => {
+                  signup({
+                    variables: {
+                      input: {
+                        name: values.name,
+                        email: values.email,
+                        password: values.password,
+                      },
+                    },
+                  })
+                    .then(async res => {
+                      await AsyncStorage.setItem(
+                        USER_TOKEN,
+                        res.data.signup.token,
+                      );
+                      this.props.navigation.navigate('App');
+                    })
+                    .catch(res => {
+                      const errors = res.graphQLErrors.map(
+                        error => error.message,
+                      );
+                      this.setState({ error: errors[0] });
+                    });
+                  Keyboard.dismiss();
+                }}
+              />
+            </View>
+          );
+        }}
+      </Mutation>
+    );
+  }
+}
+
+export default SignUp;
+export { SignUp };

@@ -13,12 +13,20 @@ import SignIn from 'screens/SignIn';
 import Home from 'screens/Home';
 import Profile from 'screens/Profile';
 import AuthLoadingScreen from 'screens/AuthLoadingScreen';
+import LandingScreen from 'screens/LandingScreen';
 
 const headerStyle = {
   marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
 };
 
 export const AuthStack = createStackNavigator({
+  LandingScreen: {
+    screen: LandingScreen,
+    navigationOptions: {
+      title: 'Welcome!',
+      headerStyle,
+    },
+  },
   SignUp: {
     screen: SignUp,
     navigationOptions: {
