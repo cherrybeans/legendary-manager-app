@@ -1,37 +1,17 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   Keyboard,
   Alert,
   AsyncStorage,
   TouchableOpacity,
 } from 'react-native';
-import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
+import { Card, Button } from 'react-native-elements';
 import { SIGN_IN } from 'queries/auth';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
-const renderEmailInput = ({ input: { onChange, ...restInput } }) => {
-  return (
-    <FormInput
-      placeholder="Email address..."
-      onChangeText={onChange}
-      {...restInput}
-    />
-  );
-};
-
-const renderPasswordInput = ({ input: { onChange, ...restInput } }) => {
-  return (
-    <FormInput
-      secureTextEntry
-      placeholder="Password..."
-      onChangeText={onChange}
-      {...restInput}
-    />
-  );
-};
+import { COLORS } from 'constants/colors';
+import TextField from 'components/Form/TextField';
 
 class SignIn extends Component {
   static navigationOptions = {
@@ -45,27 +25,41 @@ class SignIn extends Component {
         <Card>
           <Formik
             validationSchema={validationSchema}
-            initialValues={{ firstName: '' }}
+            initialValues={{ email: 'sig@gmail.com' }}
             onSubmit={values => {
+              this._signInAsync();
               Alert.alert(JSON.stringify(values, null, 2));
               Keyboard.dismiss();
             }}
           >
-            {({ handleChange, handleSubmit, values, errors }) => (
-              <View>
-                <FormInput
-                  onChangeText={handleChange('firstName')}
-                  value={values.firstName}
-                  label="First name"
-                  placeholder="I am ready!"
-                />
-                {errors.firstName && (
-                  <Text id="feedback">{errors.firstName}</Text>
-                )}
-
-                <Button onPress={handleSubmit}>Submit</Button>
-              </View>
-            )}
+            {({ handleChange, handleSubmit, values, errors, isValid }) => {
+              console.log('isva', isValid);
+              console.log('values', values);
+              console.log('errors', errors);
+              console.log();
+              return (
+                <View>
+                  <TextField
+                    name="email"
+                    label="E-mail"
+                    placeholder="E-mail ..."
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                    error={errors.email}
+                  />
+                  <Button
+                    buttonStyle={{
+                      marginTop: 20,
+                      backgroundColor: COLORS.BLUE,
+                    }}
+                    disabledStyle={{ backgroundColor: 'gray' }}
+                    title="Sign in"
+                    disabled={!isValid}
+                    onPress={handleSubmit}
+                  />
+                </View>
+              );
+            }}
           </Formik>
         </Card>
       </View>
@@ -80,23 +74,8 @@ class SignIn extends Component {
   };
 }
 
-{
-  /* <FormLabel>Email</FormLabel>
-<Field name="email" component={renderEmailInput} type="text" />
-
-<FormLabel>Password</FormLabel>
-<Field name="password" component={renderPasswordInput} type="text" />
-
-<Button
-  buttonStyle={{ marginTop: 20 }}
-  backgroundColor="#03A9F4"
-  title="Sign in"
-  onPress={this.props.handleSubmit(this._signInAsync)}
-/> */
-}
-
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string()
+  email: Yup.string()
     .required('please! email?')
     .email("well that's not an email"),
 });

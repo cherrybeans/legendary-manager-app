@@ -1,57 +1,36 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { TextField as MaterialTextField } from 'react-native-material-textfield';
-import { compose } from 'recompose';
-import makeInputGreatAgain, {
-  withNextInputAutoFocusInput,
-  withInputTypeProps,
-  setFormikInitialValue,
-  withError,
-  withTouched,
-  makeReactNativeField,
-} from 'react-native-formik';
+import { View } from 'react-native';
+import {
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+} from 'react-native-elements';
 
-export default class MaterialTextInput extends React.PureComponent {
-  // Your custom input needs a focus function for `withNextInputAutoFocus` to work
-  focus() {
-    this.input.focus();
-  }
+const TextField = ({
+  name,
+  label,
+  onChangeText,
+  value,
+  error,
+  hideInput,
+  placeholder,
+}) => {
+  console.log(error);
+  return (
+    <View style={{ paddingVertical: 20 }}>
+      <FormLabel>{label}</FormLabel>
+      <FormInput
+        secureTextEntry={hideInput}
+        onChangeText={onChangeText}
+        value={value}
+        label={label}
+        placeholder={placeholder}
+      />
+      {error && (
+        <FormValidationMessage id="feedback">{error}</FormValidationMessage>
+      )}
+    </View>
+  );
+};
 
-  render() {
-    const { error, touched, ...props } = this.props;
-
-    const displayError = !!error && touched;
-    const errorColor = 'rgb(239, 51, 64)';
-    return (
-      <View>
-        <MaterialTextField
-          ref={input => (this.input = input)}
-          labelHeight={12}
-          baseColor={displayError ? errorColor : '#1976D2'}
-          tintColor="#2196F3"
-          textColor="#212121"
-          {...props}
-        />
-        <Text
-          style={{
-            textAlign: 'right',
-            color: displayError ? errorColor : 'transparent',
-            height: 20,
-          }}
-        >
-          {error}
-        </Text>
-      </View>
-    );
-  }
-}
-
-const TextField = compose(
-  makeInputGreatAgain,
-  withNextInputAutoFocusInput,
-  withInputTypeProps,
-  setFormikInitialValue,
-  withError,
-  withTouched,
-  makeReactNativeField,
-)(MaterialTextInput);
+export default TextField;
