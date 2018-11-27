@@ -17,15 +17,20 @@ class SignInForm extends Component {
         <Card>
           <Formik
             validationSchema={validationSchema}
-            initialValues={{
-              email: 'hea@horse.com',
-              password: 'hesterbest123',
-            }}
+            initialValues={{}}
             onSubmit={values => {
               this.props.onSubmit(values);
             }}
           >
-            {({ handleChange, handleSubmit, values, errors, isValid }) => {
+            {({
+              handleChange,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+              isValid,
+              setFieldTouched,
+            }) => {
               return (
                 <View>
                   <TextField
@@ -35,6 +40,8 @@ class SignInForm extends Component {
                     onChangeText={handleChange('email')}
                     value={values.email}
                     error={errors.email}
+                    touched={touched.email}
+                    onBlur={() => setFieldTouched('email')}
                   />
 
                   <TextField
@@ -44,6 +51,8 @@ class SignInForm extends Component {
                     onChangeText={handleChange('password')}
                     value={values.password}
                     error={errors.password}
+                    touched={touched.password}
+                    onBlur={() => setFieldTouched('password')}
                     hideInput
                   />
 
@@ -81,9 +90,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .required('Please enter an email')
     .email("Well, that's not an email"),
-  password: Yup.string()
-    .required('Enter a password')
-    .min(6, 'Definitely getting hacked ..'),
+  password: Yup.string().required('Enter a password'),
 });
 
 class SignIn extends Component {

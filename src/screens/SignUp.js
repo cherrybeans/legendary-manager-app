@@ -22,7 +22,15 @@ class SignUpForm extends Component {
               this.props.onSubmit(values);
             }}
           >
-            {({ handleChange, handleSubmit, values, errors, isValid }) => {
+            {({
+              handleChange,
+              handleSubmit,
+              values,
+              errors,
+              isValid,
+              touched,
+              setFieldTouched,
+            }) => {
               return (
                 <View>
                   <TextField
@@ -32,6 +40,8 @@ class SignUpForm extends Component {
                     onChangeText={handleChange('name')}
                     value={values.name}
                     error={errors.name}
+                    touched={touched.name}
+                    onBlur={() => setFieldTouched('name')}
                   />
 
                   <TextField
@@ -41,6 +51,8 @@ class SignUpForm extends Component {
                     onChangeText={handleChange('email')}
                     value={values.email}
                     error={errors.email}
+                    touched={touched.email}
+                    onBlur={() => setFieldTouched('email')}
                   />
 
                   <TextField
@@ -50,6 +62,8 @@ class SignUpForm extends Component {
                     onChangeText={handleChange('password')}
                     value={values.password}
                     error={errors.password}
+                    touched={touched.password}
+                    onBlur={() => setFieldTouched('password')}
                     hideInput
                   />
                   <TextField
@@ -59,6 +73,8 @@ class SignUpForm extends Component {
                     onChangeText={handleChange('passwordConfirm')}
                     value={values.passwordConfirm}
                     error={errors.passwordConfirm}
+                    touched={touched.passwordConfirm}
+                    onBlur={() => setFieldTouched('passwordConfirm')}
                     hideInput
                   />
 

@@ -10,8 +10,10 @@ const TextField = ({
   name,
   label,
   onChangeText,
+  onBlur,
   value,
   error,
+  touched,
   hideInput,
   placeholder,
 }) => {
@@ -21,11 +23,12 @@ const TextField = ({
       <FormInput
         secureTextEntry={hideInput}
         onChangeText={onChangeText}
+        onBlur={onBlur}
         value={value}
         label={label}
         placeholder={placeholder}
       />
-      {error && (
+      {error && touched && (
         <FormValidationMessage id={`feedback ${name}`}>
           {error}
         </FormValidationMessage>
