@@ -18,6 +18,7 @@ export default class App extends React.Component {
   state = {
     appIsReady: false,
     client: null,
+    clientIsReady: false,
   };
 
   async componentDidMount() {
@@ -26,15 +27,18 @@ export default class App extends React.Component {
     const token = await AsyncStorage.getItem(USER_TOKEN);
     console.log('token', token);
 
-    this.setState({
-      client: new ApolloClient({
-        // 10.0.2.2 due to the android emulator though Android Studio!
-        uri: 'http://10.0.2.2:4000/graphql',
-        headers: {
-          authorization: token,
-        },
-      }),
-    });
+    this.setState(
+      {
+        client: new ApolloClient({
+          // 10.0.2.2 due to the android emulator though Android Studio!
+          uri: 'http://10.0.2.2:4000/graphql',
+          headers: {
+            authorization: token,
+          },
+        }),
+      },
+      this.setState({ clientIsReady: true }),
+    );
   }
 
   async _loadAssetsAsync() {
@@ -43,6 +47,8 @@ export default class App extends React.Component {
         fonts: [
           {
             'open-sans': require('assets/fonts/OpenSans-Regular.ttf'),
+            'open-sans-bold': require('assets/fonts/OpenSans-Bold.ttf'),
+            'open-sans-italic': require('assets/fonts/OpenSans-Italic.ttf'),
             'libre-baskerville': require('assets/fonts/LibreBaskerville-Regular.ttf'),
           },
         ],
@@ -59,7 +65,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.appIsReady) {
+    if (this.state.appIsReady && this.state.clientIsReady) {
       return (
         <ApolloProvider client={this.state.client}>
           <Provider store={store}>
