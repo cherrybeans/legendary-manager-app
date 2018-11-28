@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { View, Keyboard, Text, AsyncStorage } from 'react-native';
+import { View, Keyboard, Text } from 'react-native';
 import { Mutation } from 'react-apollo';
 import { Card, Button } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { equalTo } from 'utils/validation';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { saveTokenAction } from 'actions/auth';
 
 import TextField from 'components/Form/TextField';
-import { COLORS, USER_TOKEN } from 'constants';
+import { COLORS } from 'constants';
 import { SIGN_UP } from 'queries/auth';
 
 class SignUpForm extends Component {
@@ -152,11 +155,8 @@ class SignUp extends Component {
                       },
                     },
                   })
-                    .then(async res => {
-                      await AsyncStorage.setItem(
-                        USER_TOKEN,
-                        res.data.signup.token,
-                      );
+                    .then(res => {
+                      this.props.saveTokenAction(res.data.login.token);
                       this.props.navigation.navigate('App');
                     })
                     .catch(res => {
@@ -176,5 +176,11 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
-export { SignUp };
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ saveTokenAction }, dispatch);
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SignUp);

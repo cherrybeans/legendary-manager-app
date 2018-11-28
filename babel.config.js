@@ -8,7 +8,8 @@ module.exports = function(api) {
         {
           root: ['./src'],
           alias: {
-            actions: './src/actions',
+            actions: './src/redux/actions',
+            reducers: './src/redux/reducers',
             components: './src/components',
             containers: './src/containers',
             constants: './src/constants',

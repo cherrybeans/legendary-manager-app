@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { View, Keyboard, Text, AsyncStorage } from 'react-native';
+import { View, Keyboard, Text } from 'react-native';
 import { Mutation } from 'react-apollo';
 import { Card, Button } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { saveTokenAction } from 'actions/auth';
 
 import TextField from 'components/Form/TextField';
-import { COLORS, USER_TOKEN } from 'constants';
+import { COLORS } from 'constants';
 import { SIGN_IN } from 'queries/auth';
 
 class SignInForm extends Component {
@@ -120,15 +123,8 @@ class SignIn extends Component {
                       },
                     },
                   })
-                    .then(async res => {
-                      await AsyncStorage.setItem(
-                        USER_TOKEN,
-                        res.data.login.token,
-                      );
-                      console.log(
-                        'login tooken now',
-                        await AsyncStorage.getItem(USER_TOKEN),
-                      );
+                    .then(res => {
+                      this.props.saveTokenAction(res.data.login.token);
                       this.props.navigation.navigate('App');
                     })
                     .catch(res => {
@@ -148,5 +144,11 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
-export { SignIn };
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ saveTokenAction }, dispatch);
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SignIn);

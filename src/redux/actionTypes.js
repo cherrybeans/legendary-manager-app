@@ -1,1 +1,2 @@
-export const SAVE_TOKEN = 'SAVE_TOKEN';
+export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
+export const AUTH_DISCARD_TOKEN = 'AUTH_DISCARD_TOKEN';

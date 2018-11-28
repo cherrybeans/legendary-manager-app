@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 
 class EditTask extends Component {
@@ -21,7 +21,6 @@ class EditTask extends Component {
   }
 
   _editTaskAsync = async () => {
-    await AsyncStorage.setItem('task', 'abc123');
     this.props.navigation.navigate('Home');
   };
 }
