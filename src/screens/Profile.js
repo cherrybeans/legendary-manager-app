@@ -9,7 +9,7 @@ import { Card, Button, Text } from 'react-native-elements';
 import { Query } from 'react-apollo';
 import Image from 'react-native-scalable-image';
 import { GET_USER_PROFILE } from 'queries/user';
-import { FONTS } from 'constants';
+import { FONTS, USER_TOKEN } from 'constants';
 const { width, height } = Dimensions.get('window');
 
 class Profile extends Component {
@@ -37,6 +37,11 @@ class Profile extends Component {
 
   _signOutAsync = async () => {
     await AsyncStorage.clear();
+    console.log(
+      'token after clearing ',
+      await AsyncStorage.getItem(USER_TOKEN),
+    );
+
     this.props.navigation.navigate('Auth');
   };
 }
@@ -46,7 +51,11 @@ export { Profile };
 
 const User = () => {
   return (
-    <Query query={GET_USER_PROFILE} notifyOnNetworkStatusChange={true}>
+    <Query
+      query={GET_USER_PROFILE}
+      notifyOnNetworkStatusChange={true}
+      pollInterval={1000}
+    >
       {({ loading, error, data }) => {
         if (loading) return <ActivityIndicator />;
 

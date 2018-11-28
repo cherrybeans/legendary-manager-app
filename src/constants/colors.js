@@ -10,3 +10,12 @@ export const COLORS = {
 
   BLUE: '#03A9F4',
 };
+
+export const CATEGORY_COLORS = {
+  default: {
+    IMPORTANTURGENT: '#99cc00',
+    NOTIMPORTANTURGENT: '#ff9f00',
+    IMPORTANTNOTURGENT: '#36a4dd',
+    NOTIMPORTANTNOTURGENT: '#ff4d4e',
+  },
+};

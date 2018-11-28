@@ -10,3 +10,15 @@ export const GET_USER_PROFILE = gql`
     }
   }
 `;
+
+export const GET_TASKS = gql`
+  query TODOS($priority: Priority) {
+    todos(priority: $priority) {
+      id
+      description
+      completed
+      reminder
+      dueDate
+    }
+  }
+`;

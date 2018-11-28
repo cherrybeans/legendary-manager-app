@@ -1,23 +1,48 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Linking, View } from 'react-native';
-import { Card, Button } from 'react-native-elements';
+import {
+  View,
+  AsyncStorage,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
+import { Card, Button, Text } from 'react-native-elements';
+import { Query } from 'react-apollo';
+import Image from 'react-native-scalable-image';
+import { GET_TASKS } from 'queries/user';
+import { FONTS, CATEGORY_COLORS, USER_TOKEN } from 'constants';
+const { width, height } = Dimensions.get('window');
 
 class Home extends Component {
+  async componentDidMount() {
+    console.log('home tooken now', await AsyncStorage.getItem(USER_TOKEN));
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
-          {images.map(({ name, image, url, key }) => (
-            <Card title={`CARD ${key}`} image={image} key={key}>
-              <Text style={{ marginBottom: 10 }}>Photo by {name}.</Text>
-              <Button
-                backgroundColor="#03A9F4"
-                title="VIEW NOW"
-                onPress={() => Linking.openURL(url)}
-              />
-            </Card>
-          ))}
-        </ScrollView>
+        <Text>Tasks</Text>
+
+        <Text style={{ color: CATEGORY_COLORS.default['IMPORTANTURGENT'] }}>
+          Important & Urgent
+        </Text>
+        <TasksByPriority priority="IMPORTANTURGENT" />
+
+        <Text style={{ color: CATEGORY_COLORS.default['NOTIMPORTANTURGENT'] }}>
+          Not Important & Urgent
+        </Text>
+        <TasksByPriority priority="NOTIMPORTANTURGENT" />
+
+        <Text style={{ color: CATEGORY_COLORS.default['IMPORTANTNOTURGENT'] }}>
+          Important & Not Urgent
+        </Text>
+        <TasksByPriority priority="IMPORTANTNOTURGENT" />
+
+        <Text
+          style={{ color: CATEGORY_COLORS.default['NOTIMPORTANTNOTURGENT'] }}
+        >
+          Not Important & Not Urgent
+        </Text>
+        <TasksByPriority priority="NOTIMPORTANTNOTURGENT" />
       </View>
     );
   }
@@ -26,29 +51,36 @@ class Home extends Component {
 export default Home;
 export { Home };
 
-const images = [
-  {
-    key: 1,
-    name: 'Nathan Anderson',
-    image: require('assets/images/foggyforest.jpg'),
-    url: 'https://unsplash.com/photos/C9t94JC4_L8',
-  },
-  {
-    key: 2,
-    name: 'Jamison McAndie',
-    image: require('assets/images/mountain.jpg'),
-    url: 'https://unsplash.com/photos/waZEHLRP98s',
-  },
-  {
-    key: 3,
-    name: 'Alberto Restifo',
-    image: require('assets/images/snowymountain.jpg'),
-    url: 'https://unsplash.com/photos/cFplR9ZGnAk',
-  },
-  {
-    key: 4,
-    name: 'John Towner',
-    image: require('assets/images/starrysky.jpg'),
-    url: 'https://unsplash.com/photos/89PFnHKg8HE',
-  },
-];
+const TasksByPriority = ({ priority }) => {
+  return (
+    <Query
+      query={GET_TASKS}
+      variables={{
+        priority,
+      }}
+      notifyOnNetworkStatusChange={true}
+    >
+      {({ loading, error, data }) => {
+        if (loading) return <ActivityIndicator />;
+
+        if (error)
+          return (
+            <Text style={{ paddingTop: 20, textAlign: 'center' }}>
+              Could not fetch your tasks at this moment :( Please try again
+              later.
+            </Text>
+          );
+
+        return (
+          <View style={{ padding: 20 }}>
+            {data.todos.map(({ description, id }, i) => (
+              <Text key={i} style={{ fontFamily: FONTS.BODY }}>
+                {description} id: {id}
+              </Text>
+            ))}
+          </View>
+        );
+      }}
+    </Query>
+  );
+};

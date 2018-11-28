@@ -125,6 +125,10 @@ class SignIn extends Component {
                         USER_TOKEN,
                         res.data.login.token,
                       );
+                      console.log(
+                        'login tooken now',
+                        await AsyncStorage.getItem(USER_TOKEN),
+                      );
                       this.props.navigation.navigate('App');
                     })
                     .catch(res => {
