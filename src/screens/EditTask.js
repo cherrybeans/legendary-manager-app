@@ -3,6 +3,10 @@ import { View } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 
 class EditTask extends Component {
+  state = {
+    id: this.props.navigation.getParam('id', 'NO-ID'),
+  };
+
   render() {
     return (
       <View style={{ paddingVertical: 20 }}>
@@ -13,14 +17,14 @@ class EditTask extends Component {
             buttonStyle={{ marginTop: 20 }}
             backgroundColor="#03A9F4"
             title="Create"
-            onPress={this._signInAsync}
+            onPress={this._editTask}
           />
         </Card>
       </View>
     );
   }
 
-  _editTaskAsync = async () => {
+  _editTask = async () => {
     this.props.navigation.navigate('Home');
   };
 }

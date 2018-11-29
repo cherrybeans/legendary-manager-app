@@ -13,6 +13,8 @@ import Home from 'screens/Home';
 import Profile from 'screens/Profile';
 import AuthLoadingScreen from 'screens/AuthLoadingScreen';
 import LandingScreen from 'screens/LandingScreen';
+import CreateTask from 'screens/CreateTask';
+import EditTask from 'screens/EditTask';
 import TabIcon from 'components/TabIcon';
 import { COLORS } from 'constants';
 
@@ -44,7 +46,7 @@ export const AuthStack = createStackNavigator({
   },
 });
 
-export const AppStack = createBottomTabNavigator(
+export const MainTabBarNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: Home,
@@ -77,10 +79,28 @@ export const AppStack = createBottomTabNavigator(
   },
 );
 
+export const AppStack = createStackNavigator({
+  CreateTask: {
+    screen: CreateTask,
+    navigationOptions: {
+      title: 'Create a new task',
+      headerStyle,
+    },
+  },
+  EditTask: {
+    screen: EditTask,
+    navigationOptions: {
+      title: 'Edit a task',
+      headerStyle,
+    },
+  },
+});
+
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
+      Main: MainTabBarNavigator,
       App: AppStack,
       Auth: AuthStack,
     },

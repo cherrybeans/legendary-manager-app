@@ -3,7 +3,8 @@ import { View, Dimensions, ActivityIndicator, Text } from 'react-native';
 import { Query } from 'react-apollo';
 import { connect } from 'react-redux';
 
-import { GET_TASKS } from 'queries/user';
+import TaskItem from 'containers/TaskItemContainer';
+import { GET_TASKS } from 'queries/tasks';
 import { FONTS, USER_TOKEN } from 'constants';
 
 const TasksByPriority = ({ priority, token }) => {
@@ -33,11 +34,18 @@ const TasksByPriority = ({ priority, token }) => {
 
         return (
           <View style={{ padding: 20 }}>
-            {data.todos.map(({ description, id }, i) => (
-              <Text key={i} style={{ fontFamily: FONTS.BODY }}>
-                {description} id: {id}
-              </Text>
-            ))}
+            {data.todos.map(
+              ({ id, description, completed, reminder, dueDate }, i) => (
+                <TaskItem
+                  key={i}
+                  id={id}
+                  description={description}
+                  completed={completed}
+                  reminder={reminder}
+                  dueDate={dueDate}
+                />
+              ),
+            )}
           </View>
         );
       }}

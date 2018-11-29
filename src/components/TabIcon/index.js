@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { FontAwesome } from 'react-native-vector-icons';
 
 const TabIcon = ({ label, icon, color, size = 30 }) => {

@@ -125,7 +125,7 @@ class SignIn extends Component {
                   })
                     .then(res => {
                       this.props.saveTokenAction(res.data.login.token);
-                      this.props.navigation.navigate('App');
+                      this.props.navigation.navigate('Main');
                     })
                     .catch(res => {
                       const errors = res.graphQLErrors.map(
