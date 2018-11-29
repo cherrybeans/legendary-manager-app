@@ -46,10 +46,37 @@ export const AuthStack = createStackNavigator({
   },
 });
 
+export const HomeStack = createStackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({ tintColor }) => (
+        <TabIcon label="Home" icon="home" size={30} color={tintColor} />
+      ),
+      header: null,
+    },
+  },
+  CreateTask: {
+    screen: CreateTask,
+    navigationOptions: {
+      title: 'Create a new task',
+      headerStyle,
+    },
+  },
+  EditTask: {
+    screen: EditTask,
+    navigationOptions: {
+      title: 'Edit a task',
+      headerStyle,
+    },
+  },
+});
+
 export const MainTabBarNavigator = createBottomTabNavigator(
   {
     Home: {
-      screen: Home,
+      screen: HomeStack,
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: ({ tintColor }) => (
@@ -79,29 +106,11 @@ export const MainTabBarNavigator = createBottomTabNavigator(
   },
 );
 
-export const AppStack = createStackNavigator({
-  CreateTask: {
-    screen: CreateTask,
-    navigationOptions: {
-      title: 'Create a new task',
-      headerStyle,
-    },
-  },
-  EditTask: {
-    screen: EditTask,
-    navigationOptions: {
-      title: 'Edit a task',
-      headerStyle,
-    },
-  },
-});
-
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
       Main: MainTabBarNavigator,
-      App: AppStack,
       Auth: AuthStack,
     },
     {
