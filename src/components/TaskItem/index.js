@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import { COLORS } from 'constants';
+import { FontAwesome } from 'react-native-vector-icons';
+
+import { COLORS, FONTS, FONT_SIZE } from 'constants';
 
 const TaskItem = ({
   description,
@@ -14,42 +16,45 @@ const TaskItem = ({
 }) => {
   return (
     <TouchableOpacity
+      onPress={toggleCompleted}
       onLongPress={onEdit}
-      style={[
-        styles.wrapper,
-        {
-          backgroundColor: isCompleted ? 'gray' : 'white',
-        },
-      ]}
+      style={{
+        backgroundColor: isCompleted ? '#e9e9e9' : '#f7f7f7',
+        flexDirection: 'row',
+        borderRadius: 5,
+        borderColor: '#eeeeee',
+        borderWidth: 1,
+        padding: 10,
+        alignItems: 'center',
+        marginVertical: 5,
+      }}
     >
-      <CheckBox
-        onPress={toggleCompleted}
-        checked={isCompleted}
-        uncheckedIcon="square"
-        checkedIcon="check-square"
-        containerStyle={styles.checkBoxContainer}
-      />
+      {isCompleted ? (
+        <FontAwesome name="check-square" size={25} color="#cdcdcd" />
+      ) : (
+        <FontAwesome name="square" size={25} color="#d7d7d7" />
+      )}
+
       <Text
-        style={[
-          styles.taskText,
-          {
-            textDecorationLine: isCompleted ? 'line-through' : 'none',
-            fontStyle: isCompleted ? 'italic' : 'normal',
-          },
-        ]}
+        style={{
+          textDecorationLine: isCompleted ? 'line-through' : 'none',
+          marginLeft: 10,
+          fontFamily: isCompleted ? FONTS.ITALIC : FONTS.BODY,
+          fontSize: FONT_SIZE.sm,
+        }}
       >
         {description}
       </Text>
 
       {(dueTime || hasReminder) && (
-        <View style={styles.iconsContainer}>
-          <View style={styles.iconsWrapper}>
+        <View style={{}}>
+          <View style={{}}>
             {dueTime && (
-              <View style={styles.dueDateWrapper}>
+              <View style={{}}>
                 <FontAwesome name="clock" />
-                <View style={styles.dueDateTimeWrapper}>
-                  <Text style={styles.timeClock}>{dueTime}</Text>
-                  <Text style={styles.timeDate}>{dueDay}</Text>
+                <View style={{}}>
+                  <Text style={{}}>{dueTime}</Text>
+                  <Text style={{}}>{dueDay}</Text>
                 </View>
               </View>
             )}
@@ -63,47 +68,3 @@ const TaskItem = ({
 
 export default TaskItem;
 export { TaskItem };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    paddingLeft: 10,
-    paddingRight: 15,
-    paddingVertical: 5,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 10,
-    marginTop: 10,
-  },
-  checkBoxContainer: {
-    marginVertical: 0,
-    marginHorizontal: 0,
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-  },
-  taskText: {
-    color: 'black',
-    flex: 1,
-  },
-  iconsContainer: {
-    width: 90,
-    marginLeft: 6,
-  },
-  iconsWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  dueDateWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  dueDateTimeWrapper: {
-    flex: 1,
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-  },
-  timeClock: { fontWeight: 'bold', fontSize: 17, color: 'black' },
-  timeDate: { fontSize: 13, color: 'black' },
-});

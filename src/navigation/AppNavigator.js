@@ -50,25 +50,26 @@ export const HomeStack = createStackNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
+      headerStyle: {
+        height: 0,
+        elevation: 0,
+      },
       tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => (
         <TabIcon label="Home" icon="home" size={30} color={tintColor} />
       ),
-      header: null,
     },
   },
   CreateTask: {
     screen: CreateTask,
     navigationOptions: {
       title: 'Create a new task',
-      headerStyle,
     },
   },
   EditTask: {
     screen: EditTask,
     navigationOptions: {
       title: 'Edit a task',
-      headerStyle,
     },
   },
 });

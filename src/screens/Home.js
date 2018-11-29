@@ -1,40 +1,41 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { ScrollView, Dimensions } from 'react-native';
 import { Card, Text } from 'react-native-elements';
 import Image from 'react-native-scalable-image';
 
 import TasksByPriority from 'containers/TasksByPriority';
+import ColoredSectionHeader from 'components/ColoredSectionHeader';
 import { CATEGORY_COLORS } from 'constants';
 const width = Dimensions.get('window').width;
 
 class Home extends Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Text>Tasks</Text>
-
-        <Text style={{ color: CATEGORY_COLORS.default['IMPORTANTURGENT'] }}>
-          Important & Urgent
-        </Text>
+      <ScrollView style={{ flex: 1 }}>
+        <ColoredSectionHeader
+          title="Important & Urgent"
+          color={CATEGORY_COLORS.default['IMPORTANTURGENT']}
+        />
         <TasksByPriority priority="IMPORTANTURGENT" />
 
-        <Text style={{ color: CATEGORY_COLORS.default['NOTIMPORTANTURGENT'] }}>
-          Not Important & Urgent
-        </Text>
+        <ColoredSectionHeader
+          title="Not Important & Urgent"
+          color={CATEGORY_COLORS.default['NOTIMPORTANTURGENT']}
+        />
         <TasksByPriority priority="NOTIMPORTANTURGENT" />
 
-        <Text style={{ color: CATEGORY_COLORS.default['IMPORTANTNOTURGENT'] }}>
-          Important & Not Urgent
-        </Text>
+        <ColoredSectionHeader
+          title="Important & Not Urgent"
+          color={CATEGORY_COLORS.default['IMPORTANTNOTURGENT']}
+        />
         <TasksByPriority priority="IMPORTANTNOTURGENT" />
 
-        <Text
-          style={{ color: CATEGORY_COLORS.default['NOTIMPORTANTNOTURGENT'] }}
-        >
-          Not Important & Not Urgent
-        </Text>
+        <ColoredSectionHeader
+          title="Not Important & Not Urgent"
+          color={CATEGORY_COLORS.default['NOTIMPORTANTNOTURGENT']}
+        />
         <TasksByPriority priority="NOTIMPORTANTNOTURGENT" />
-      </View>
+      </ScrollView>
     );
   }
 }

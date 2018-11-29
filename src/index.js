@@ -36,6 +36,7 @@ export default class App extends React.Component {
             'open-sans-bold': require('assets/fonts/OpenSans-Bold.ttf'),
             'open-sans-italic': require('assets/fonts/OpenSans-Italic.ttf'),
             'libre-baskerville': require('assets/fonts/LibreBaskerville-Regular.ttf'),
+            'libre-baskerville-bold': require('assets/fonts/LibreBaskerville-Bold.ttf'),
           },
         ],
       });
